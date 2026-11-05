@@ -119,6 +119,9 @@ impl Detector {
         self.sleep_detector.start(f);
     }
 
+    /// Must not be called from inside the detector callback: `stop` waits for
+    /// the detector worker and in-flight listener callbacks, so it would
+    /// deadlock on the call that is running it.
     pub fn stop(&mut self) {
         self.mic_detector.stop();
 
